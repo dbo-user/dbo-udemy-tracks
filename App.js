@@ -1,0 +1,34 @@
+
+import React from 'react';
+import { createStackNavigator } from 'react-navigation-stack';
+import { createAppContainer, createSwitchNavigator } from 'react-navigation';
+import { createBottomTabNavigator } from 'react-navigation-tabs';
+import AccountScreen from './src/screens/AccountScreen';
+import SigninScreen from './src/screens/SigninScreen';
+import SignupScreen from './src/screens/SignupScreen';
+import TrackCreateScreen from './src/screens/TrackCreateScreen';
+import TrackDetailScreen from './src/screens/TrackDetailScreen';
+import TrackListScreen from './src/screens/TrackListScreen';
+
+// swithcNavigator will control the flow between the 
+// loginFlow and the mainFlow
+const switchNavigator = createSwitchNavigator({
+  loginFlow: createStackNavigator({
+      Signup: SignupScreen,
+      Signin: SigninScreen
+  }),
+  // BottomTabNavigator will control the flow between the 
+  // trackListFlow, TrackCreateScreen and AccountScreen 
+  mainFlow: createBottomTabNavigator({
+      trackListFlow: createStackNavigator({
+      // trackListFlow will control the flow between the 
+      // TtrackListScreen and TrackDEtailScreen
+        TrackList: TrackListScreen,
+        TrackDetail: TrackDetailScreen
+      }),
+      TrackCreate: TrackCreateScreen,
+      Account: AccountScreen
+  })
+});
+
+export default createAppContainer(switchNavigator);
