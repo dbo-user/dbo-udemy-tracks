@@ -1,4 +1,4 @@
-
+// Purpose - entry point for the app, it is the main configuration, it is a JavaScript UI library for creating mobile webapps
 import React from 'react';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
@@ -9,6 +9,7 @@ import SignupScreen from './src/screens/SignupScreen';
 import TrackCreateScreen from './src/screens/TrackCreateScreen';
 import TrackDetailScreen from './src/screens/TrackDetailScreen';
 import TrackListScreen from './src/screens/TrackListScreen';
+import { Provider as AuthProvider } from './src/context/AuthContext';
 
 // swithcNavigator will control the flow between the 
 // loginFlow and the mainFlow
@@ -31,4 +32,17 @@ const switchNavigator = createSwitchNavigator({
   })
 });
 
-export default createAppContainer(switchNavigator);
+//export default createAppContainer(navigator); normally would do this but
+//this blog is using a blog post provider wrapper that wraps around the entire application
+
+// so make a custom App component
+const App = createAppContainer(switchNavigator);
+
+// passing App to children in AuthProvider
+export default () => {
+  return (
+    <AuthProvider>
+        <App />
+    </AuthProvider>
+  );
+}; // end export
