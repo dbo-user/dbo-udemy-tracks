@@ -1,6 +1,8 @@
 // Purpose - AuthProvider
+import { AsyncStorage } from 'react-native';
 import createDataContext from './createDataContext';
 import trackerApi from '../api/tracker'; // trackerApi has the baseURL
+import { navigate } from '../navigationRef';
 
 // state is an array of all the users
 // authReducer is called everytime from a dispatch line below
@@ -8,6 +10,8 @@ const authReducer = (state, action) => {
     switch (action.type){ // action.type and payload come from the dispatch lines below
         case 'add_error': // error trying to signin a new user
             return { ...state, errorMessage: action.payload}; // errorMessage will go to SignUpScreen line 39 and display it on the phone
+        case 'signup': // token received from the dispatch line below
+            return { errorMessage: '', token: action.payload }; // reset errorMessage
         default: // possible error becasue the action was not recognized
             return state; // return the array of tracks
     }
@@ -20,7 +24,12 @@ return async ({ email, password }) => {
     // make api request to sign up with that email and password from the signup screen onPress line 35
     try {
         const response = await trackerApi.post('/signup', { email, password }) // post request to baseURL/ in track-server authRoutes.js
-        console.log(response.data); // shows the user's token on the console
+        // response.data also has a token property
+        await AsyncStorage.setItem('token', response.data.token); // store token on phone's storage
+        dispatch({ type: 'signup', payload: response.data.token}); // pass this up to the authReducer
+        console.log(response.data); // shows the user's data on the console
+        navigate('TrackList'); // TrackList defined in App.js on line 28 basically branch to TrackListScreen
+        // this navigate line calls the navigate function on line 14 in navigation.Ref
     } catch (err) {
         console.log(`Unsuccessful sign up in POST AuthContext line 23 ${err.response.data}`);
         dispatch({ type: 'add_error', payload: 'Unsuccessful sign up in POST AuthContext line 23'}); // pass this message up to the authReducer and eventually to the user's phone screen
@@ -59,5 +68,5 @@ const signout = (dispatch) => {
 export const { Context, Provider} = createDataContext(
     authReducer,
     { signin, signup, signout }, // makes these functions available to the entire app
-    { isSignedIn: false, errorMessage: '' } // initial signin state is false and errorMessage is blank
+    { token: null, errorMessage: '' } // initial signin or token state is null or no and errorMessage is blank
 ); // end export
