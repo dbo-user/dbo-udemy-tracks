@@ -1,5 +1,7 @@
 // Purpose - AuthProvider
 import { AsyncStorage } from 'react-native';
+// AsyncStorage is storage on the device. It is useful to save data that the application would need to use,
+// like saving a username. It will remain even when the user has closed the app or has even closed the device.
 import createDataContext from './createDataContext';
 import trackerApi from '../api/tracker'; // trackerApi has the baseURL
 import { navigate } from '../navigationRef';

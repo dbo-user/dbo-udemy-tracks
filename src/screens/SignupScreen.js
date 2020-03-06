@@ -1,6 +1,6 @@
 // Purpose - Signup Screen enter email and password to sign up for Tracker
 import React, { useState, useContext } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import { Text, Input, Button} from 'react-native-elements';
 import Spacer from '../components/Spacer';
 import { Context as AuthContext } from '../context/AuthContext';
@@ -35,16 +35,23 @@ const SignupScreen = ({ navigation }) => {
                     onPress={() => signup({ email, password})} // call the signup function in AuthContext line 16 which is a POST request
                 />
             </Spacer>
+            <Spacer>
+                <Button 
+                    buttonStyle={{ backgroundColor: 'navy' }}
+                    title='I already have an Account, so just Sign In'
+                    onPress={() => navigation.navigate('Signin')}
+                     /* Button to go to the SigninScreen */
+                    />
+             </Spacer>
             
             {state.errorMessage
                 ? <Text style={styles.errorMessageStyle}>{state.errorMessage}</Text>
                 : null }
 
         </View>
-        // state.errorMessage is coming from the authReducer starting on line 7 in AuthContext.js
+        // the state.errorMessage above is coming from the authReducer starting on line 7 in AuthContext.js
     ); // end return
 }; // end SignupScreen
-
 
 SignupScreen.navigationOptions = ({ navigation }) => {
     return {
