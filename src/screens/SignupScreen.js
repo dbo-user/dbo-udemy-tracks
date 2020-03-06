@@ -1,55 +1,39 @@
 // Purpose - Signup Screen enter email and password to sign up for Tracker
-import React, { useState, useContext } from 'react';
-import { StyleSheet, View, TouchableOpacity } from 'react-native';
-import { Text, Input, Button} from 'react-native-elements';
-import Spacer from '../components/Spacer';
+import React, { useContext } from 'react';
+import { StyleSheet, View } from 'react-native';
+import { NavigationEvents } from 'react-navigation'; // works like navigation.addListner
 import { Context as AuthContext } from '../context/AuthContext';
+import AuthForm from '../components/AuthForm';
+import NavLink from '../components/NavLink'; // for the second button
 
 const SignupScreen = ({ navigation }) => {
-    const { state, signup } = useContext(AuthContext);
-    // set State to blanks and later setEmail and setPassword will be updated below on the onChangeText line.
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const { state, signup, clearErrorMessage } = useContext(AuthContext);
+    
 
     return (
         <View style={styles.containerStyle}>
-            
-            <Input label='Email' 
-                value={email}
-                onChangeText = {(newEmail) => setEmail(newEmail)} // update the state of email
-                autoCapitalize='none'
-                autoCorrect={false}
-            />
-            <Spacer />
-            <Input label='Password' 
-                value={password}
-                secureTextEntry={true}
-                onChangeText = {(newPassword) => setPassword(newPassword)} // update the state of password
-                autoCapitalize='none'
-                autoCorrect={false}
-            />
-            <Spacer>
-                <Button 
-                    buttonStyle={{ backgroundColor: 'navy', marginTop: 20 }}
-                    title='Sign Up'
-                    onPress={() => signup({ email, password})} // call the signup function in AuthContext line 16 which is a POST request
-                />
-            </Spacer>
-            <Spacer>
-                <Button 
-                    buttonStyle={{ backgroundColor: 'navy' }}
-                    title='I already have an Account, so just Sign In'
-                    onPress={() => navigation.navigate('Signin')}
-                     /* Button to go to the SigninScreen */
-                    />
-             </Spacer>
-            
-            {state.errorMessage
-                ? <Text style={styles.errorMessageStyle}>{state.errorMessage}</Text>
-                : null }
-
+            <NavigationEvents // does not show on the screen
+                //onWillFocus={() => {} } // called when we are about to navigate to the signin screen
+                //onDidFocus={() => {clearErrorMessage() } } // called when we land on the signin screen
+                onWillBlur={() => {clearErrorMessage() } } // called when we are about to navigate away from the signin screen
+                //onDidBlur={() => {clearErrorMessage() } } // called when the navigation away is complete 
+             />
+          <AuthForm // call the AuthForm to show this screen and pass these 4 parameters
+                //headerText='Sign Up for Tracker' // not using this
+                errorMessage={ state.errorMessage }
+                submitButtonText='Sign Up'
+                onSubmit={({ email, password }) => signup ({ email, password }) } // signup is the same action as line 10
+          />
+          <NavLink // call the NavLink line 10 to show a second button and pass these 2 parameters
+                // headerText='Sign Up for Tracker' // not using this
+                errorMessage={ state.errorMessage }
+                routeName='Signin'
+                submitButtonText='I already have an Account, so just Sign In'
+                //onSubmit={({ email, password }) => signup ({ email, password }) } // signup is the same action as line 10
+          />
+           
         </View>
-        // the state.errorMessage above is coming from the authReducer starting on line 7 in AuthContext.js
+        
     ); // end return
 }; // end SignupScreen
 
@@ -67,17 +51,11 @@ const styles = StyleSheet.create({
     containerStyle: {
         flex: 1,
         justifyContent: 'center',
-        marginBottom: 250
+        marginBottom: 220
     },
-    h3Style: {
+    h3Style: { // not using this
         backgroundColor: 'lightblue', 
         alignSelf: 'center'
-    },
-    errorMessageStyle: {
-        fontSize: 16,
-        color: 'red',
-        marginLeft: 15,
-        marginTop: 15
     }
 });
 

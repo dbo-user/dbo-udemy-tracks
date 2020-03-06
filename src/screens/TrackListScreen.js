@@ -14,6 +14,15 @@ const TrackListScreen = ({ navigation }) => {
     ); // end return
 }; // end TrackListScreen
 
+TrackListScreen.navigationOptions = ({ navigation }) => {
+    return {
+       // headerShown: false
+        headerStyle: { backgroundColor: 'lightblue' },
+        title: 'Track List',
+        headerTitleAlign: 'center'
+    }; // end return
+}; // end navigationOptions
+
 const styles = StyleSheet.create({});
 
 export default TrackListScreen;
