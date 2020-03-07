@@ -21,19 +21,22 @@ const switchNavigator = createSwitchNavigator({
       Signup: SignupScreen,
       Signin: SigninScreen
   }),
-  // BottomTabNavigator will control the flow between the 
-  // trackListFlow, TrackCreateScreen and AccountScreen 
   mainFlow: createBottomTabNavigator({
       trackListFlow: createStackNavigator({
-      // trackListFlow will control the flow between the 
-      // TtrackListScreen and TrackDEtailScreen
         TrackList: TrackListScreen,
         TrackDetail: TrackDetailScreen
+        
       }),
       TrackCreate: TrackCreateScreen,
       Account: AccountScreen
+      
   })
 });
+//const mainFlow = createBottomTabNavigator({TrackList, TrackCreate, Account});
+// BottomTabNavigator will control the flow between the 
+  // trackListFlow, TrackCreateScreen and AccountScreen 
+// trackListFlow will control the flow between the 
+      // TrackListScreen and TrackDetailScreen
 
 //export default createAppContainer(navigator); normally would do this but
 //this blog is using a blog post provider wrapper that wraps around the entire application

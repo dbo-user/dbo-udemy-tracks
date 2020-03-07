@@ -15,9 +15,11 @@ const authReducer = (state, action) => {
         case 'signup': // token received from the dispatch line below
             return { errorMessage: '', token: action.payload }; // reset errorMessage
         case 'signin': // token received from the dispatch line below
-             return { errorMessage: '', token: action.payload }; // reset errorMessage
+            return { errorMessage: '', token: action.payload }; // reset errorMessage
+        case 'signout': // token received from the dispatch line below
+            return { token: null, errorMessage: '' }; // reset token and errorMessage
         case 'clear_error_message': // received from the dispatch line below
-             return { ...state, errorMessage: action.payload }; // reset errorMessage to blank
+            return { ...state, errorMessage: action.payload }; // reset errorMessage to blank
         default: // possible error becasue the action was not recognized
             return state; // return the array of users
     }
@@ -81,13 +83,10 @@ const signin = (dispatch) => {
 }; // end signin
 
 const signout = (dispatch) => {
-    return () => {
-        // make api request to sign out with that email and password
-    
-        // if we sign up then modify the state and say we are authenticated
-    
-        // if signing up failed then send an error message
-        
+    return async() => {
+        await AsyncStorage.removeItem('token'); // remove token on phone's storage
+        dispatch({ type: 'signout' }); // use authReducer above line 19
+        navigate('loginFlow'); // go to the Signup Screen
     }; // end return
 };  // end signout
 

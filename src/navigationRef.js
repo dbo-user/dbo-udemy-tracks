@@ -1,7 +1,7 @@
 // Purpose - get access to the navigator, and make navigation function for all to use to
 // branch to different screens like going from loginFlow to mainFlow in App.js line 18
 // so if I want to go from SignupScreen to TrackListScreen I would use this navigate function.
-// line 14 is the branch function called navigate
+// line 16 is the branch function called navigate
 import { NavigationActions } from 'react-navigation';
 
 let navigator;

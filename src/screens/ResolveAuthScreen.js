@@ -1,5 +1,5 @@
 // Purpose - initial load up screen that willl show until the presence of the user token has been verified
-// prevents the sign up screen from loading first
+// prevents the sign up screen from loading first and sorta of flashing by
 import React, {useEffect, useContext} from 'react';
 import { Context as AuthContext } from '../context/AuthContext';
 //import AuthForm from '../components/AuthForm';

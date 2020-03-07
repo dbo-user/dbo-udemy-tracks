@@ -1,10 +1,11 @@
+// Purpose -
 import React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 
 const TrackListScreen = ({ navigation }) => {
     return (
         <>
-            <Text style={{ marginTop: 20 }}>TrachListScreen</Text>
+            <Text style={{ marginTop: 20 }}>TrackListScreen</Text>
             <Button
                 title='Go to Track Detail'
                 onPress={() => navigation.navigate('TrackDetail')}
