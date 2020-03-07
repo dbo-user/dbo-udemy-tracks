@@ -9,7 +9,6 @@ import NavLink from '../components/NavLink'; // for the second button
 const SignupScreen = ({ navigation }) => {
     const { state, signup, clearErrorMessage } = useContext(AuthContext);
     
-
     return (
         <View style={styles.containerStyle}>
             <NavigationEvents // does not show on the screen

@@ -23,6 +23,16 @@ const authReducer = (state, action) => {
     }
 }; // end authReducer
 
+const tryLocalSignin = dispatch => async () => {
+    const token = await AsyncStorage.getItem('token');
+        if (token) { // if the token is present then automate the signin and branch to the TrackListScreen
+            dispatch({ type: 'signin', payload: token});
+            navigate('TrackList'); // TrackList defined in App.js on line 28 basically branch to TrackListScreen
+        } else { // no token present so branch to the Signup screen
+            navigate('Signup');
+        } // end if
+}; // end tryLocalSignin
+
 const clearErrorMessage = dispatch => () =>{
     return (
         dispatch({ type:'clear_error_message', payload: '' })
@@ -85,6 +95,6 @@ const signout = (dispatch) => {
 // receive the reducer function, the action and the initial state
 export const { Context, Provider} = createDataContext(
     authReducer,
-    { signin, signup, signout, clearErrorMessage }, // makes these functions available to the entire app
+    { signin, signup, signout, clearErrorMessage, tryLocalSignin }, // makes these functions available to the entire app
     { token: null, errorMessage: '' } // initial signin or token state is null or no and errorMessage is blank
 ); // end export

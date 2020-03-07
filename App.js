@@ -11,10 +11,12 @@ import TrackDetailScreen from './src/screens/TrackDetailScreen';
 import TrackListScreen from './src/screens/TrackListScreen';
 import { Provider as AuthProvider } from './src/context/AuthContext';
 import { setNavigator } from './src/navigationRef';
+import ResolveAuthScreen from './src/screens/ResolveAuthScreen';
 
 // swithcNavigator will control the flow between the 
 // loginFlow and the mainFlow
 const switchNavigator = createSwitchNavigator({
+  ResolveAuth: ResolveAuthScreen, // load this screen first
   loginFlow: createStackNavigator({
       Signup: SignupScreen,
       Signin: SigninScreen
