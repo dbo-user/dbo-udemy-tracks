@@ -9,7 +9,7 @@ const Map = () => {
     // for loop 20 times to create 20 map coordinates
     // used on the Polyline below
     for ( let i=0; i<20; i++) {
-        points.push({
+        points.push({ // add the coordinates to the end of the array
             latitude: 37.33233 + i * 0.001,
             longitude: -122.03121 + i * 0.001
         });
