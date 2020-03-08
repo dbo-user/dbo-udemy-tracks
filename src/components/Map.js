@@ -1,8 +1,8 @@
-// purpose - 
+// Purpose - draws a line on the map, called from the TrackCreateScreen line 42
 import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import MapView, { Polyline } from 'react-native-maps';
-import { PinchGestureHandler } from 'react-native-gesture-handler';
+
 
 const Map = () => {
     let points = [];

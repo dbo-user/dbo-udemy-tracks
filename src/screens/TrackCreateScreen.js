@@ -1,4 +1,6 @@
-// Purpose -
+// Purpose - ask permission to access Location service of phone
+// call Map.js line 42 to draw the line on the map
+import '../_mockLocation';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { Text } from 'react-native-elements';
@@ -6,7 +8,7 @@ import Map from '../components/Map';
 import { Button } from 'react-native-elements';
 import Spacer from '../components/Spacer';
 import { SafeAreaView } from 'react-navigation'; // prevents text from overlapping in the header area
-import { requestPermissionsAsync } from 'expo-location';
+import { requestPermissionsAsync, watchPositionAsync, Accuracy } from 'expo-location';
 
 const TrackCreateScreen = ({ navigation }) => {
     const [err, setErr] = useState(null); // err is initialized to null
@@ -14,7 +16,14 @@ const TrackCreateScreen = ({ navigation }) => {
     // ask user's permission to track their location
     const startWatching = async () => {
         try {
-            await requestPermissionsAsync(); // ask permission
+            await requestPermissionsAsync(); // ask permission to use phone location
+            await watchPositionAsync({
+                accuracy: Accuracy.BestForNavigation,
+                timeInterval: 1000, // try to get an update every 1 second
+                distanceInterval: 10 // or update every 10 meters
+            }, (location) => {
+                    console.log(location); // show actual location
+            }); // end watch
         } catch (errorRequest) {
             setErr(errorRequest); // permission was denied
         } // end try
@@ -30,7 +39,7 @@ const TrackCreateScreen = ({ navigation }) => {
         <Spacer>
             <Text>MAP</Text>
         </Spacer>
-        <Map />
+        <Map /> 
         {err 
         ? <Text style={styles.errorMessageStyle}>Please enable Location in Settings</Text>
         : null}

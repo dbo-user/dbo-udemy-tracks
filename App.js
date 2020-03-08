@@ -28,7 +28,7 @@ const switchNavigator = createSwitchNavigator({
         
       }),
       TrackCreate: TrackCreateScreen,
-      Account: AccountScreen
+      Signout: AccountScreen
       
   })
 });
