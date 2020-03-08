@@ -1,34 +1,44 @@
 // Purpose - draws a line on the map, called from the TrackCreateScreen line 42
-import React from 'react';
-import { View, StyleSheet, Text } from 'react-native';
-import MapView, { Polyline } from 'react-native-maps';
-
+import React, { useContext } from 'react';
+import { View, StyleSheet, Text, ActivityIndicator } from 'react-native';
+import MapView, { Polyline, Circle } from 'react-native-maps';
+import { Context as LocationContext } from '../context/LocationContext';
 
 const Map = () => {
-    let points = [];
-    // for loop 20 times to create 20 map coordinates
-    // used on the Polyline below
-    for ( let i=0; i<20; i++) {
-        points.push({ // add the coordinates to the end of the array
-            latitude: 37.33233 + i * 0.001,
-            longitude: -122.03121 + i * 0.001
-        });
-    } // end for loop
+    const { state: { currentLocation } } = useContext(LocationContext);
+
+    // if there is no current location then show a spinner and return
+    if (!currentLocation) {
+        return <ActivityIndicator size='large' style={{ marginTop: 200 }} />;
+    } // end if
 
     return (
         <View>
             <MapView style={styles.mapStyle}
-            initialRegion={{ // initial google map location
-                latitude: 37.33233,
-                longitude: -122.03121,
-                latitudeDelta: 0.01, // zoom level
-                longitudeDelta: 0.01 // zoom level
+                initialRegion={{ // initial google map location
+                    ...currentLocation.coords,
+                    //latitude: 34.652370, same as currentLocation.coords
+                    //longitude: -77.086330, same as currentLocation.coords
+                    latitudeDelta: 0.01, // zoom level
+                    longitudeDelta: 0.01 // zoom level
 
-            }}
-            >
-                <Polyline
-                    coordinates={points} // draw a line on map, points is an array from the for loop above
-                />
+                }}
+                /*
+                region={{ // current google map loaction
+                    ...currentLocation.coords,
+                    //latitude: 34.652370,
+                    //longitude: -77.086330,
+                    latitudeDelta: 0.01, // zoom level
+                    longitudeDelta: 0.01 // zoom level
+                }}
+                */
+            > 
+                <Circle 
+                    center={currentLocation.coords} // same as latitude, longitude
+                    radius={30}
+                    strokeColor='rgba(217, 30, 24, 1)'
+                    fillColor='rgba(217, 30, 24, 0.3)'
+                /> 
             </MapView>
         </View>
     ); // end return

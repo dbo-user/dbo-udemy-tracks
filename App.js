@@ -12,6 +12,7 @@ import TrackListScreen from './src/screens/TrackListScreen';
 import { Provider as AuthProvider } from './src/context/AuthContext';
 import { setNavigator } from './src/navigationRef';
 import ResolveAuthScreen from './src/screens/ResolveAuthScreen';
+import { Provider as LocationProvider } from './src/context/LocationContext';
 
 // swithcNavigator will control the flow between the 
 // loginFlow and the mainFlow
@@ -47,8 +48,10 @@ const App = createAppContainer(switchNavigator);
 // passing App to children in AuthProvider
 export default () => {
   return (
-    <AuthProvider>
-        <App ref={(navigator) => { setNavigator(navigator)} } />
-    </AuthProvider> // navigator allows us to navigate around
-  );
+    <LocationProvider>
+        <AuthProvider>
+            <App ref={(navigator) => { setNavigator(navigator)} } />
+        </AuthProvider> 
+    </LocationProvider> // navigator on line 53 allows us to navigate around
+  ); // end return
 }; // end export

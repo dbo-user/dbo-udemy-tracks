@@ -1,37 +1,20 @@
 // Purpose - ask permission to access Location service of phone
 // call Map.js line 42 to draw the line on the map
 import '../_mockLocation';
-import React, { useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import { StyleSheet } from 'react-native';
 import { Text } from 'react-native-elements';
 import Map from '../components/Map';
-import { Button } from 'react-native-elements';
 import Spacer from '../components/Spacer';
 import { SafeAreaView } from 'react-navigation'; // prevents text from overlapping in the header area
-import { requestPermissionsAsync, watchPositionAsync, Accuracy } from 'expo-location';
+import { Context as LocationContext} from '../context/LocationContext';
+import useLocation from '../hooks/useLocation';
 
 const TrackCreateScreen = ({ navigation }) => {
-    const [err, setErr] = useState(null); // err is initialized to null
-    
-    // ask user's permission to track their location
-    const startWatching = async () => {
-        try {
-            await requestPermissionsAsync(); // ask permission to use phone location
-            await watchPositionAsync({
-                accuracy: Accuracy.BestForNavigation,
-                timeInterval: 1000, // try to get an update every 1 second
-                distanceInterval: 10 // or update every 10 meters
-            }, (location) => {
-                    console.log(location); // show actual location
-            }); // end watch
-        } catch (errorRequest) {
-            setErr(errorRequest); // permission was denied
-        } // end try
-    }; // end startWatching
+    const { addLocation } = useContext(LocationContext);
 
-    useEffect(() => {
-        startWatching(); // will only be called one time at the start
-    }, []);
+    // call useLocation and pass in addLocation and receive back err
+    const [err] = useLocation((location) => addLocation(location));
 
     return (
         <SafeAreaView forceInset={{ top: 'always' }} >
