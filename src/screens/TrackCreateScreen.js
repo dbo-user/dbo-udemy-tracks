@@ -6,15 +6,19 @@ import { StyleSheet } from 'react-native';
 import { Text } from 'react-native-elements';
 import Map from '../components/Map';
 import Spacer from '../components/Spacer';
-import { SafeAreaView } from 'react-navigation'; // prevents text from overlapping in the header area
+import { SafeAreaView, withNavigationFocus } from 'react-navigation'; // prevents text from overlapping in the header area
 import { Context as LocationContext} from '../context/LocationContext';
 import useLocation from '../hooks/useLocation';
+import TrackForm from '../components/TrackForm';
 
-const TrackCreateScreen = ({ navigation }) => {
-    const { addLocation } = useContext(LocationContext);
+
+const TrackCreateScreen = ({ isFocused }) => {
+    const { state, addLocation } = useContext(LocationContext);
 
     // call useLocation and pass in addLocation and receive back err
-    const [err] = useLocation((location) => addLocation(location));
+    const [err] = useLocation(isFocused, (location) => {
+        addLocation(location, state.recording)
+    });
 
     return (
         <SafeAreaView forceInset={{ top: 'always' }} >
@@ -26,6 +30,8 @@ const TrackCreateScreen = ({ navigation }) => {
         {err 
         ? <Text style={styles.errorMessageStyle}>Please enable Location in Settings</Text>
         : null}
+
+        <TrackForm />
            
         </SafeAreaView>
     ); // end return
@@ -49,4 +55,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default TrackCreateScreen;
+export default withNavigationFocus(TrackCreateScreen);
