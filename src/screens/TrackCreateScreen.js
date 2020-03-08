@@ -1,7 +1,7 @@
 // Purpose - ask permission to access Location service of phone
 // call Map.js line 42 to draw the line on the map
 import '../_mockLocation';
-import React, { useContext } from 'react';
+import React, { useContext, useCallback } from 'react';
 import { StyleSheet } from 'react-native';
 import { Text } from 'react-native-elements';
 import Map from '../components/Map';
@@ -15,10 +15,12 @@ import TrackForm from '../components/TrackForm';
 const TrackCreateScreen = ({ isFocused }) => {
     const { state, addLocation } = useContext(LocationContext);
 
+        const callback = useCallback(location => {
+            addLocation(location, state.recording);
+        }, [state.recording]);
+
     // call useLocation and pass in addLocation and receive back err
-    const [err] = useLocation(isFocused, (location) => {
-        addLocation(location, state.recording)
-    });
+    const [err] = useLocation(isFocused, callback );
 
     return (
         <SafeAreaView forceInset={{ top: 'always' }} >
