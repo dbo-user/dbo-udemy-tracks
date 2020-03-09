@@ -5,7 +5,7 @@ import MapView, { Polyline, Circle } from 'react-native-maps';
 import { Context as LocationContext } from '../context/LocationContext';
 
 const Map = () => {
-    const { state: { currentLocation } } = useContext(LocationContext);
+    const { state: { currentLocation, locations } } = useContext(LocationContext);
 
     // if there is no current location then show a spinner and return
     if (!currentLocation) {
@@ -39,6 +39,10 @@ const Map = () => {
                     strokeColor='rgba(217, 30, 24, 1)'
                     fillColor='rgba(217, 30, 24, 0.3)'
                 /> 
+
+                <Polyline // draw the line on the map by getting the latitude and longitude from eachLocation.coords
+                    coordinates={locations.map(eachLocation => eachLocation.coords)}
+                />
             </MapView>
         </View>
     ); // end return

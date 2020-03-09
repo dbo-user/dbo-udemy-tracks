@@ -17,20 +17,27 @@ const TrackForm = () => {
                     value={ name }
                     onChangeText={changeName}
                 />
-                <Spacer>
-                    {recording // if recording then show the Stop button else show the Start button
-                        ? <Button 
-                            title='Stop'
-                            onPress={stopRecording}
-                        />
-                        : <Button 
-                            title='Start Recording'
-                            onPress={startRecording}
-                        /> 
-                    } 
-                    
-                </Spacer>
             </Spacer>
+            <Spacer>
+                {recording // if recording then show the Stop button else show the Start button
+                    ? <Button 
+                        title='Stop'
+                        onPress={stopRecording}
+                    />
+                    : <Button 
+                        title='Start Recording'
+                        onPress={startRecording}
+                    /> 
+                } 
+            </Spacer>  
+            <Spacer> 
+                {!recording && locations.length
+                    ? <Button
+                        title='Save Recording' />
+                    : null
+                }
+            </Spacer>
+            
         </>
     ); // end return
 }; // end TrackForm
