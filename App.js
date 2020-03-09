@@ -14,9 +14,20 @@ import { setNavigator } from './src/navigationRef';
 import ResolveAuthScreen from './src/screens/ResolveAuthScreen';
 import { Provider as LocationProvider } from './src/context/LocationContext';
 import { Provider as TrackProvider } from './src/context/TrackContext';
+import { FontAwesome } from '@expo/vector-icons';
 
-// swithcNavigator will control the flow between the 
+// swithcNavigator below will control the flow between the 
 // loginFlow and the mainFlow
+const trackListFlow = createStackNavigator({
+  TrackList: TrackListScreen,
+  TrackDetail: TrackDetailScreen
+}); // end trackListFlow
+
+trackListFlow.navigationOptions = {
+  title: 'Tracks',
+  tabBarIcon: <FontAwesome name='th-list' size={20} />
+};
+
 const switchNavigator = createSwitchNavigator({
   ResolveAuth: ResolveAuthScreen, // load this screen first
   loginFlow: createStackNavigator({
@@ -24,13 +35,9 @@ const switchNavigator = createSwitchNavigator({
       Signin: SigninScreen
   }),
   mainFlow: createBottomTabNavigator({
-      trackListFlow: createStackNavigator({
-        TrackList: TrackListScreen,
-        TrackDetail: TrackDetailScreen
-        
-      }),
+      trackListFlow,
       TrackCreate: TrackCreateScreen,
-      Signout: AccountScreen
+      Account: AccountScreen
       
   })
 });
