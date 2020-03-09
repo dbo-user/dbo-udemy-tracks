@@ -11,7 +11,7 @@ export default () => {
     const saveTrack = async () => {
         await createTrack(name, locations); // call createTrack in TrackContext. js line 17
         reset(); // call reset in LocationContext.js line 45
-        navigate('TrackList'); // go to TrackListScreen
+         navigate('TrackList'); // go to TrackListScreen
     }; // end saveTrack
 
     return [saveTrack];
